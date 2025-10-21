@@ -31,7 +31,12 @@ namespace HraRaketa
 
             //Inicializace rakety
             Raketa.Left = GroupbBox_hraciPlocha.Width / 2 - Raketa.Width / 2;
-            Raketa.Right = GroupbBox_hraciPlocha.Width / 2 + Raketa.Width / 2;
+            Raketa.Top = GroupbBox_hraciPlocha.Height - Raketa.Height - 10;
+
+            //Inicializace meteoritu
+            Meteorit.Left = rnd.Next(0, GroupbBox_hraciPlocha.Width - Meteorit.Width);
+            Meteorit.Top = -Meteorit.Height;
+
         }
     }
 }
