@@ -134,22 +134,6 @@ namespace HraRaketa
             meteor.Left = rnd.Next(0,hraciPlocha.Width - meteor.Width);
         }
 
-        /*
-        private void ResetHru()
-        {
-            // jednoduchý reset stavů
-            skore = 0;
-            zivoty = 3;
-            palivo = 100;
-            Raketa.Left = hraciPlocha.Width / 2 - Raketa.Width / 2;
-            foreach (var meteor in meteory)
-            {
-                ResetMeteor(meteor);
-            }
-            boxSkore.Text = skore.ToString();
-            boxPalivo.Text = palivo.ToString();
-            casovac.Start();
-        }
-        */
+        
     }
 }
