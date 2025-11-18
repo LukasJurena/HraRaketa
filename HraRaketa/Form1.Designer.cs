@@ -42,6 +42,8 @@
             this.Zivot2 = new System.Windows.Forms.PictureBox();
             this.Zivot3 = new System.Windows.Forms.PictureBox();
             this.groupOvladani = new System.Windows.Forms.GroupBox();
+            this.labelRychlostMeteoritu = new System.Windows.Forms.Label();
+            this.labelRaketaRychlost = new System.Windows.Forms.Label();
             this.labelInfo = new System.Windows.Forms.Label();
             this.trackBarMeteorit = new System.Windows.Forms.TrackBar();
             this.trackBarRaketa = new System.Windows.Forms.TrackBar();
@@ -49,8 +51,9 @@
             this.buttonStop = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
             this.progressBarPalivo = new System.Windows.Forms.ProgressBar();
-            this.labelRaketaRychlost = new System.Windows.Forms.Label();
-            this.labelRychlostMeteoritu = new System.Windows.Forms.Label();
+            this.button_ZobrazVysledky = new System.Windows.Forms.Button();
+            this.textBoxJmeno = new System.Windows.Forms.TextBox();
+            this.label_jmeno = new System.Windows.Forms.Label();
             this.hraciPlocha.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Meteorit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Raketa)).BeginInit();
@@ -192,6 +195,24 @@
             this.groupOvladani.TabStop = false;
             this.groupOvladani.Text = "Ovládání hry";
             // 
+            // labelRychlostMeteoritu
+            // 
+            this.labelRychlostMeteoritu.AutoSize = true;
+            this.labelRychlostMeteoritu.Location = new System.Drawing.Point(604, 16);
+            this.labelRychlostMeteoritu.Name = "labelRychlostMeteoritu";
+            this.labelRychlostMeteoritu.Size = new System.Drawing.Size(95, 13);
+            this.labelRychlostMeteoritu.TabIndex = 16;
+            this.labelRychlostMeteoritu.Text = "Rychlost Meteoritů";
+            // 
+            // labelRaketaRychlost
+            // 
+            this.labelRaketaRychlost.AutoSize = true;
+            this.labelRaketaRychlost.Location = new System.Drawing.Point(495, 16);
+            this.labelRaketaRychlost.Name = "labelRaketaRychlost";
+            this.labelRaketaRychlost.Size = new System.Drawing.Size(85, 13);
+            this.labelRaketaRychlost.TabIndex = 15;
+            this.labelRaketaRychlost.Text = "Rychlost Rakety";
+            // 
             // labelInfo
             // 
             this.labelInfo.AutoSize = true;
@@ -252,29 +273,40 @@
             this.progressBarPalivo.Size = new System.Drawing.Size(110, 23);
             this.progressBarPalivo.TabIndex = 11;
             // 
-            // labelRaketaRychlost
+            // button_ZobrazVysledky
             // 
-            this.labelRaketaRychlost.AutoSize = true;
-            this.labelRaketaRychlost.Location = new System.Drawing.Point(495, 16);
-            this.labelRaketaRychlost.Name = "labelRaketaRychlost";
-            this.labelRaketaRychlost.Size = new System.Drawing.Size(85, 13);
-            this.labelRaketaRychlost.TabIndex = 15;
-            this.labelRaketaRychlost.Text = "Rychlost Rakety";
+            this.button_ZobrazVysledky.Location = new System.Drawing.Point(34, 485);
+            this.button_ZobrazVysledky.Name = "button_ZobrazVysledky";
+            this.button_ZobrazVysledky.Size = new System.Drawing.Size(109, 23);
+            this.button_ZobrazVysledky.TabIndex = 12;
+            this.button_ZobrazVysledky.Text = "Zobrazit výsledky";
+            this.button_ZobrazVysledky.UseVisualStyleBackColor = true;
+            this.button_ZobrazVysledky.Click += new System.EventHandler(this.button_ZobrazVysledky_Click);
             // 
-            // labelRychlostMeteoritu
+            // textBoxJmeno
             // 
-            this.labelRychlostMeteoritu.AutoSize = true;
-            this.labelRychlostMeteoritu.Location = new System.Drawing.Point(604, 16);
-            this.labelRychlostMeteoritu.Name = "labelRychlostMeteoritu";
-            this.labelRychlostMeteoritu.Size = new System.Drawing.Size(95, 13);
-            this.labelRychlostMeteoritu.TabIndex = 16;
-            this.labelRychlostMeteoritu.Text = "Rychlost Meteoritů";
+            this.textBoxJmeno.Location = new System.Drawing.Point(300, 557);
+            this.textBoxJmeno.Name = "textBoxJmeno";
+            this.textBoxJmeno.Size = new System.Drawing.Size(188, 20);
+            this.textBoxJmeno.TabIndex = 13;
+            // 
+            // label_jmeno
+            // 
+            this.label_jmeno.AutoSize = true;
+            this.label_jmeno.Location = new System.Drawing.Point(373, 541);
+            this.label_jmeno.Name = "label_jmeno";
+            this.label_jmeno.Size = new System.Drawing.Size(38, 13);
+            this.label_jmeno.TabIndex = 14;
+            this.label_jmeno.Text = "Jméno";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(786, 589);
+            this.Controls.Add(this.label_jmeno);
+            this.Controls.Add(this.textBoxJmeno);
+            this.Controls.Add(this.button_ZobrazVysledky);
             this.Controls.Add(this.groupOvladani);
             this.Controls.Add(this.Zivot3);
             this.Controls.Add(this.Zivot2);
@@ -330,6 +362,9 @@
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.Label labelRaketaRychlost;
         private System.Windows.Forms.Label labelRychlostMeteoritu;
+        private System.Windows.Forms.Button button_ZobrazVysledky;
+        private System.Windows.Forms.TextBox textBoxJmeno;
+        private System.Windows.Forms.Label label_jmeno;
     }
 }
 

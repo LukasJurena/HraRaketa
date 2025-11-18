@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Data.SQLite;
 
 namespace HraRaketa
 {
@@ -31,6 +31,28 @@ namespace HraRaketa
         public Form1()
         {
             InitializeComponent();
+            //databaze
+            string cesta = "Data Source=databaze.db";
+
+            using (var conn = new SQLiteConnection(cesta))
+            {
+                conn.Open();
+
+                string sql = @"CREATE TABLE IF NOT EXISTS ScoreLog (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Jmeno TEXT,
+                    Skore INT,
+                    Zivoty INT,
+                    Palivo INT,
+                    Datum TEXT
+                  );";
+
+                using (var cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            this.Load += Form1_Load;
             // Fokus hned na hrací plochu, moc to nefunguje bohuzel, neprisel jsem na to proc :(
             this.ActiveControl = hraciPlocha;
             hraciPlocha.Focus();
@@ -38,7 +60,13 @@ namespace HraRaketa
             this.KeyPreview = true; //začne zachycovat klávesy
             this.KeyDown += Form1_KeyDown;
             this.KeyUp += Form1_KeyUp;
-            this.KeyPress += (s, e) => e.Handled = true;
+            this.KeyPress += (s, e) =>
+            {
+                if (ActiveControl is TextBox)
+                    return; // povolit psaní do textboxů
+
+                e.Handled = true; // jinak blokovat
+            };
 
             // inicializace rakety (používáme název z Designeru: hraciPlocha)
             Raketa.Left = hraciPlocha.Width / 2 - Raketa.Width / 2;
@@ -96,7 +124,15 @@ namespace HraRaketa
                 meteoritRychlost = trackBarMeteorit.Value;
             };
         }
-
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // Nastaví fokus po vykreslení formuláře
+            BeginInvoke(new Action(() =>
+            {
+                hraciPlocha.Focus();
+                this.ActiveControl = hraciPlocha;
+            }));
+        }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             // ignoruj klávesy, pokud je focus na textBoxu nebo trackbaru
@@ -157,7 +193,20 @@ namespace HraRaketa
         }
         private void buttonStart_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(textBoxJmeno.Text))
+            {
+                MessageBox.Show(
+                    "Před začátkem hry musíš vyplnit své jméno!",
+                    "Chybějící jméno",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                textBoxJmeno.Focus();
+                return; 
+            }
+
             casovac.Start();
+            hraciPlocha.Focus();
         }
         private void buttonStop_Click(object sender, EventArgs e)
         {
@@ -198,6 +247,7 @@ namespace HraRaketa
                 if (zivoty <= 0)
                 {
                     casovac.Stop();
+                    UlozSkoreDoDatabaze();
                     var result = MessageBox.Show("Konec hry. Zkusíš to znovu? Skóre: " + skore, "Game Over", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     { 
@@ -233,7 +283,32 @@ namespace HraRaketa
             meteor.Top = -meteor.Height;
             meteor.Left = rnd.Next(0,hraciPlocha.Width - meteor.Width);
         }
+        private void UlozSkoreDoDatabaze()
+        {
+            string cesta = "Data Source=databaze.db";
 
-        
+            using (SQLiteConnection conn = new SQLiteConnection(cesta))
+            {
+                conn.Open();
+
+                string sql = "INSERT INTO ScoreLog (Jmeno, Skore, Zivoty, Palivo, Datum) VALUES (@j, @s, @z, @p, @d)";
+
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@j", textBoxJmeno.Text);
+                    cmd.Parameters.AddWithValue("@s", skore);
+                    cmd.Parameters.AddWithValue("@z", zivoty);
+                    cmd.Parameters.AddWithValue("@p", palivo);
+                    cmd.Parameters.AddWithValue("@d", DateTime.Now.ToString("dd.MM.yyyy HH:mm"));
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void button_ZobrazVysledky_Click(object sender, EventArgs e)
+        {
+            FormSkore f = new FormSkore(); f.Show();
+        }
     }
 }
